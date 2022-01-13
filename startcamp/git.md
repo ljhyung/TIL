@@ -35,3 +35,11 @@ esc :
 * git log : commit의 내용 확인
 
 ![image-20220113161726825](git.assets/image-20220113161726825.png)
+
+local에서 remote repository 에 올리기 위해
+
+1. 원격저장소 정보 등록(url)
+
+   git remote add remote별명 remote주소 (origin -> 컨벤션, main)
+
+2. 로컬 내용을 push 한다.
