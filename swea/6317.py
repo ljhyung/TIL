@@ -1,5 +1,5 @@
 # _*_ coding: utf-8 _*_
-#6317
+#6317.py
 
 def max(*num):
     k = num[0]

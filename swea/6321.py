@@ -1,5 +1,5 @@
 # _*_ coding: utf-8 _*_
-#6321
+#6321.py
 
 def sosu(num):
     k=0

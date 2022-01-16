@@ -1,5 +1,5 @@
 # _*_ coding: utf-8 _*_
-#6315
+#6315.py
 
 num = []
 for i in range(1,11):
