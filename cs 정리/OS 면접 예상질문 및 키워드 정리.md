@@ -1,273 +1,187 @@
 # 운영체제 면접 예상 질문
 
-## 2장 컴퓨터 시스템의 구조
+> 2022-03-09 수요일에 최종 질문들을 분류하고 자신에게 맞는 최적 답안을 완성합니다.
+>
+> 또한 단원마다 필요한 키워드를 취합하여 2학기 면접에서 바로 사용할 수 있는 자료로 갈무리합니다.
 
-### cpu가 입출력 기기에 접속하는 방식 중 하나인 memory mapped I/O란
+​          
 
-- 메모리와 I/O가 하나의 연속된 주소영역에 할당, I/O가 차지하는 만큼 메모리 용량은 감소하나 CPU입장에서는 메모리와 I/O가 동일한 외부기기로 간주되어 액세스하는 데 같은 신호를 사용, 메모리 명령어로 I/O까지 한번에 사용
+## < 중간 범위 >
 
-### DMA란 무엇인가
+> 중간범위의 질문들.
 
-- 빠른 입출력 장치를 메모리에 가까운 속도로 처리하기 위해 사용
-- CPU의 중재 없이 device contrioller가 device의 buffer storage의 내용을 **메모리에 block 단위로 직접 전송**
-- 바이트 단위가 아니라 block 단위로 인터럽트를 발생시킴 -> 효율적
+### 운영체제에 대해 간략하게 설명해주세요
 
-### OS의 분류
+* 이주형: 사용자가 컴퓨터를 간편하고 효율적이게 사용할 수 있도록 도와주는 소프트웨어입니다.
 
-- 동시 작업 가능 여부
-  - 단일 작업(single tasking): 한 번에 하나의 작업만 정리
-  - 다중 작업(multi tasking): 동시에 두 개 이상의 작업 정리
-- 사용자의 수
-  - 단일 사용자: MS-DOS, MS Windows
-  - 다중 사용자: UNIX, NT server
-- 처리 방식
-  - 일괄 처리(batch processing): 작업 요청의 일정량을 모아 한꺼번에 정리
-  - 시분할(time sharing): 컴퓨터 처리 능력을 일정한 시간 단위로 분할해 사용
-    - 짧은 응답 시간, interactive한 방식
-  - 실시간(Realtime): 정해진 시간 안에 어떤 일이 반드시 종료가 보장되어야 함
-    - Hard realtime system(경성 실시간 시스템)
-    - Soft realtime system(연성 실시간 시스템)
+​         
 
-## 3장 프로세스 관리
+### 운영체제의 목적에 대해 설명하시오
 
-### 프로세서가 cpu에서 기계어 실행을 하다가 cpu를 내놓는 경우 3가지
+* 이주형: 컴퓨터의 한정된 자원을 효율적으로 사용하게 하는 것이 목적입니다.
 
-- timer interrupt : 할당 시간 만료
-- I/O or event wait : I/O나 오래 걸리는 작업 때문에 blocked로 가서 작업이 끝나면 interrupt로 다시 ready que로
-- exit : 프로세스 종료
+​         
 
-### 사용자 프로그램이 사용하는 함수 3가지
+### blocked와 suspended는 어떤 점에서 다른가요?
 
-- 사용자 정의 함수
-- 라이브러리 함수
-  - 자신의 프로그램에서 정의하지 않고 갖다 쓴 함수
-  - 자신의 프로그램 실행 파일에 포함되어 있다
-- 커널 함수
-  - 운영체제 프로그램의 함수
-  - 커널 함수의 호출 = 시스템
-  - 커널의 코드에 포함
+* 이주형: blocked는 I/O에 한 요청이 도착하는 등의 interrupt가 있으면 ready queue로 들어갈 수 있는 대기 상태이고 suspended는 아예 실행이 될 수 없는 상태입니다.
 
-### 프로세스가 종료되는 경우에 대해
+​       
 
-- 자발적 종료
-  - 마지막 statement 수행 후 exit() 시스템 콜을 통해
-  - 자식이 부모에게 output data를 보냄 (via wait)
-  - 프로세스의 각종 자원들이 운영체제에게 반납됨
-  - 프로그램에 명시적으로 적어주지 않아도 main함수가 리턴되는 위치에 컴파일러가 넣어줌
-- 비자발적 종료
-  - 부모 프로세스가 자식 프로세스를 강제 종료시킴 (abort)
-    - 자식 프로세스가 한계치를 넘어서는 자원 요청
-    - 자식에게 할당된 태스크가 더 이상 필요하지 않은 경우
-  - 키보드로 kill, break를 친 경우
-  - 부모가 종료하는 경우 자식들이 먼저 종료
+### 부모 프로세스와 자식 프로세스가 실행될 때 자원은 어떻게 관리되나요?
 
-## 4장 CPU 스케줄링
+* 이주형: 기본적으로는 모든 프로세스는 자원을 가지고 경쟁하기 때문에 무한 경쟁 상태입니다. 그 중 자식 프로세스와 부모 프로세스가 모두 공유하거나 자식 프로세스와 부모 프로세스가 자원을 일부만 공유하는 형태로 설정할 수 있습니다. 그러나 기본적으로 자원을 공유하지 않는 것으로 알고 있습니다.
 
-### 스케줄링 알고리즘 중 SJF의 두가지 방법에 대해 설명하고 장점
+​           
 
-- Nonpreemptive : 일단 프로세스가 진행되면 남은 시간보다 더 짧은 CPU burst time을 가진 프로세스가 들어와도 실행 중이던 프로세스를 종료 후 다음 프로세스를 진행
-- Preemptive : 남은 시간보다 짧은 CPU burst time을 가진 프로세스가 들어오면 바로 context switch(SRTF- Shortest Remaining Time First)
-- 평균 waiting time이 가장 적다
+### Multilevel Queue 에서 생길 수 있는 문제점, 해결방안
 
-### RoundRobin 방식에서 할당 시간을 정하는 기준
+* 이주형: foreground queue와 background queue로 나누어서 foreground 큐의 프로세스를 먼저 처리하고 foreground의 큐가 비면 background 큐를 수행합니다. background 큐가 실행되지 않는 starvation이 일어날 수 있는데 foreground와 background의 CPU 할당 시간을 적절히 조절하여 해결할 수 있습니다.
 
-- I/O bound job은 바로 처리되서 나가고 CPU bound job은 적절히 처리되고 나갈 정도의 시간으로 정해야 한다
-- 너무 짧으면 overhead가 커진다
+​         
 
-### 스케줄링의 성능척도 5가지를 말해보세요
+### 프로세스가 생성(new)되어 종료(terminated)될때까지의 프로세스 상태 변화에 대해 설명하시오.
 
-- CPU utilization(이용률)
-- Throughput(처리량)
-- Turnaround time(소요시간)
-- Waiting time(대기시간)
-- Response time(응답시간)
+* 이주형: 프로그램이 메모리에 올라가면 프로세스가 되고 cpu의 사용을 기다리는 ready 상태에 있다가 cpu를 사용하면 running 상태로 수행되고 I/O를 기다리는 등의 일이 있으면 blocked된 상태로 대기하고 있다가 I/O 요청이 완료된 interrupt를 받으면 다시 ready 상태의 큐에 대기합니다. 이 과정에서 메모리를 빼앗기고 다시 디스크로 가면 suspended 상태가 되고 다시 resume 신호를 받아야 swap in 합니다.
 
-## 5장 병행제어 
+  
 
-## 6장 데드락
+​      
+
+### RoundRobin 방식에서 할당 시간을 정하는 기준은?
+
+* 이주형: I/O bound job은 바로 처리되서 나가고 CPU bound job은 적절히 처리되고 나갈 정도의 시간으로 정해야 한다. 너무 짧으면 overhead가 커진다        
+
+### 스케줄링 알고리즘 중 SJF
+
+* 이주형: shortest job first로 CPU를 사용하여 프로세스를 해결하는데 걸리는 시간이 짧은 순서대로 CPU를 소유하게 하는 알고리즘입니다. 실행 도중 남은 실행 시간보다 더 짧은 프로세스에 넘겨주는 preemptive방식과 한번 실행하면 끝까지 실행하는 nonpreemptive방식이 있습니다. 이 방식을 이용하면 평균 대기 시간은 짧아지지만 starvation문제가 일어날 수 있습니다.
+
+​       
+
+### Modebit의 역할은 무엇인가요? 그리고 어떤 방식으로 작동하나요?
+
+* 이주형: Modebit은 모니터 모드와 사용자 모드가 나뉘어 모니터모드에서는 운영체제가 CPU를 점유하여 커널과 관련된 일을 진행하고 보안이나 중요한 작업을 수행하고 사용자 모드에서는 사용자 프로세스를 수행합니다. 특권명령
+
+​         
+
+### 장기 스케줄러와, 중기 스케줄러의 차이는?
+
+* 이주형: 장기 스케줄러는 프로세스에게 메모리를 줘서 메모리 안의 프로세스의 수를 조절합니다. 중기 스케줄러는 메모리의 공간 확보를 위해 프로세스에게서 메모리를 뺏어오고 프로세스를 디스크로 보내는 swap out을 일으킵니다
+
+​      
+
+### 프로세스의 생명 주기에서 suspended의 특징
+
+* 이주형: 외부적인 이유로 프로세스가 중지되어 swap out된 상태입니다. 다시 실행 되려면 자력으로는 안 되고 외부에서 신호를 줘야 실행될 수 있습니다.
+
+​       
+
+### 인터럽트란?
+
+* 이주형: 특이사항이 생겨 cpu의 처리가 필요한 일이 생겼을 때 cpu에 보내는 신호입니다. 하드웨어 인터럽트와 소프트웨어 인터럽트인 trap으로 나뉩니다.
+
+​       
+
+### PCB 에 대해 설명하고 PCB 구성요소에 대해서 3가지 이상 예를 드시오.
+
+* 이주형: PCB는 커널에 각 프로세스마다 저장되는 정보로 program counter와 register 그리고 현재 프로세스의 진행 상태 등이 있습니다.
+
+​        
+
+### fork 의 동작에 대해 설명하시오
+
+* 이주형: 부모 프로세스에서 자식 프로세스를 복제하는 동작입니다. program couter도 복사하므로 현재 실행 중인 곳도 같게 복제 됩니다. PID 변수를 통해 자식과 부모를 구분합니다.
+
+​       
+
+### 스레드 간 통신보다 프로세스 간 통신이 어려운 이유?
+
+* 이주형: 스레드는 주소 공간을 공유하기 때문에 공유 자원을 통해 통신이 가능한데 프로세스는 각자 독립적으로 실행되므로 통신을 하려면 커널을 통하거나 신뢰 가능한 프로세스끼리 일부 주소를 공유하는 방법을 사용해야하므로 프로세스간 통신이 더 어렵습니다.
+* 프로세스 간은 ipc 방식을 이용, 메일박스나 메시지 넘기기등을 사용 가능
+
+​         
+
+​          
+
+
+
+## < 기말 범위 >    
+
+> 기말 범위의 질문들
 
 ### 데드락이란 무엇인가?
 
-교착상태. 프로세스들이 서로가 가진 자원을 기다리며 block 되어있는 상태를 말한다.
+* 이주형: 여러 프로세스가 서로가 가진 자원을 동시에 요청하며 무한정 대기하는 상태입니다. 4가지 조건을 만족해야만 데드락이라고 하는데 하나의 자원을 하나의 프로세스만 점유할 수 있는 Mutual Exclsion과 preemption이 안 되고 자발적으로 자원을 내놓아야하고 자원을 가진 프로세스가 다른 자원을 기다리면서 자신이 가진 자원을 놓지 않는 hold and wait 있고 환영대기 상태를 이루어 circle wait이 형성되어야 합니다.
 
-데드락은 Mutual exclusion(상호 배제), No preemption(비선점), Hold and Wait(점유와 대기), Circular wait(환형 대기) 를 모두 만족해야 발생한다.
-
-## 7장 메모리 관리
-
-## 8장 가상 메모리
-
-### 내부조각과 외부조각
-
-Internal fragmentation(내부 조각) : 
-
-- 프로그램 크기보다 분할의 크기가 큰 경우
-- 하나의 분할 내부에서 발생하는 사용되지 않는 메모리 조각
-- 특정 프로그램에 배정되었지만 사용되지 않는 공간
-
-External fragmentation(외부 조각) :
-
-- 프로그램 크기보다 분할의 크기가 작은 경우
-- 아무 프로그램에도 배정되지 않은 빈 곳인데도 프로그램이 올라갈 수 없는 작은 분할
-
-## 9장 파일시스템
-
-### clock algorithm이란?
-
-paging system이 실제로 사용하는 page replacement Algorithm으로 원형 queue와 reference bit을 사용하여 교체 대상 페이지를 선정하는 알고리즘이다. 포인터가 이동하는 중 reference bit 1은 모두 0으로 바꾸고 한 바퀴를 돌때까지 페이지가 참조되지 않으면 0 그래도인 상태로 그 페이지를 교체한다.
-
-## 10장 입출력 시스템
-
-
-
-
-
-
+​     
 
 ### MMU란 무엇인가?
 
-Memory Management Unit 의 약자로, 논리적 주소를 물리적 주소로 매핑해주는 Hardware device 이다.
+* 이주형: mmu는 주소 바인딩 시 limit register와 base register를 가지고 물리적 주소를 매핑해주는 역할을 하는 하드웨어입니다. limit register를 통해 주소값이 프로세스의 주소값을 벗어나지 않는지 확인해주고 base register에 논리적 주소를 더하여 실제 물리적 주소를 얻습니다.
 
-MMU에는 접근할 수 있는 물리적 메모리 주소의 최소값(시작값) 을 저장하는 Relocation register와 논리적 주소의 범위를 저장하는 Limit register가 있다.
+​     
 
 ### race condition 이란 무엇인가? 이로인해 생길 수 있는 문제는?
 
-여러 프로세스들이 동시에 공유 데이터를 접근하는 상황.
+* 이주형: 하나의 공유 데이터에 동시에 여러 프로세스들이 접근하는 상태입니다. 그 결과 데이터의 불일치 문제가 발생할 수 있습니다.
 
-데이터의 불일치 문제를 발생시킬 수 있다.
+​       
 
-데이터의 일관성 유지를 위해서 동시 수행되는 프로세스 (concurrent process) 들은 동기화 되어야 한다.
+### clock algorithm이란?
 
+* 이주형: paging기법에서 page fault 시 디스크에서 page를 메모리의 frame에 할당해야하는데 빈 frame이 없을 경우 replace 할 frame을 결정하는 알고리즘이 clock algorithm입니다. 원형큐 방식을 이용하여 참조된 페이지는 1로 표시하고 포인터가 지나갈 때마다 1을 0으로 바꾸고 포인터가 돌아올 때까지 참조가 일어나면 0이 다시 1로 바뀌고 참조가 일어나지 않고 포인터가 0으로 오면 그 frame을 교체합니다
 
+​       
+
+### 내부 단편화과 외부 단편화(fragmentation)
+
+* 이주형: 외부 조각은 이미 할당된 메모리에 프로세스가 할당될 때 프로세스가 필요로 하는 메모리의 사이즈가 이미 할당되어 나뉘어져 있는 메모리보다 클 때 그 공간을 뛰어넘고 다음 자신의 크기에 맞는 공간에 들어가면 중간에 남은 공간입니다.
+
+  내부조각은 할당된 메모리에 프로세스가 할당되었는데 메모리가 남아서 남은 공간이 내부조각입니다.
+
+​         
 
 ### Processor-Consumer Problem
 
-- Producer생산자 프로세스와 Consumer소비자 프로세스가 존재. 
-- Producer 프로세스가 여러 개 있고, Consumer 프로세스가 여러 개 존재.
-- 발생할 수 있는 문제: 두 개의 생산자 프로세스가 동시에 도착하면 하나의 비어있는 버퍼에 동시에 두 개의 데이터를 집어 넣으면 문제 발생. 때문에 빈 버퍼에 데이터를 넣는 작업을 그냥 하지 않고 공유 데이터에 lock을 걸어서 다른 프로세스들의 접근을 막은 다음 비어있는 버퍼에 데이터를 집어넣고, 데이터를 집어넣는 작업이 끝나면 lock을 풀어서 다른 생산자 프로세스 혹은 소비자 프로세스가 공유 버퍼에 접근할 수 있게 해줌.
+- 이주형: 공유 데이터에 여러 생산자 프로세스와 소비자 프로세스가 존재하여 생산자 프로세스는 자원을 생산하여 공유 데이터의 빈 자리에 채워넣고 소비자 프로세스는 공유 데이터에 존재하는 자원을 소비합니다. 두개 이상의 생산자 프로세스가 동시에 한 자리에 생산한 자원을 넣으려고 하거나 두개 이상의 소비자 프로세스가 하나의 공유 데이터를 동시에 가져가려하면 문제가 생기므로 공유 데이터에 접근 시 lock을 걸어 하나의 프로세스만 접근이 가능하도록 합니다.
 
+​             
 
+###  TLB의 핵심 기능과 보완할 부분
 
-| 키워드              | 단원 | 설명                             | 관련키워드 |
-| ------------------- | ---- | -------------------------------- | ---------- |
-| preemptive          |      |                                  |            |
-| clock algorithm     |      | page replacement Algorithm       |            |
-| 내부조각과 외부조각 |      | 메모리 할당 시 생길 수 있는 조각 |            |
-| Processor-Consumer  |      | 동기화 문제 중 한가지            |            |
-|                     | 5    |                                  |            |
-|                     |      |                                  |            |
+* 이주형: page table을 통해 찾을 필요 없이 캐싱된 데이터를 버퍼에서 바로 가져올 수 있게 한 대신 찾는 page가 TLB안에 있는 지 확인해야하기 때문에 associative register로 병렬적으로 한번에 존재하는지 확인할 수 있게 하여 시간을 단축시킬 수 있습니다.
 
-키워드 
+  ​     
 
-2장
+### 주소바인딩 방식들은 어떻게 분류되고 차이점은 무엇인가?
 
-Time sharing : 여러 작업을 수행할 때 컴퓨터 처리 능력을 일정한 시간 단위로 분할하여 사용
+* 이주형: compile time binding과 load time binding 그리고 run time binding로 나뉩니다. 첫 번째는 절대적인 주소로 논리적 주소와 물리적 주소가 같아야 합니다. load time binding은 loader에 의해 임의의 물리적 주소에 바인딩 됩니다. 마지막 바인딩은 실행 중에도 물리적 주소가 바뀔 수 있습니다.
 
-Mode bit : 사용자가 프로그램의 잘못된 수행으로 다른 프로그램 및 운영체제에 피해가 가지 않도록 하기 위한 보호 장치, 0 모니터 모드 : OS 코드 수행, 1 사용자 모드 : 사용자 프로그램 수행
+​      
 
-Interrupt
+### Segmentation의 Paging 기법과 비교한 장점과 단점은?
 
-동기식 입출력과 비동기식 입출력 : 
+* 이주형: segmentation은 프로세스를 의미단위로 구분하여 할당하기 때문에 paging기법에 비해  table을 많이 차지하지 않고 메모리에 필요한 부분들이 연속적으로 할당되는 장점이 있습니다. 또한 내부 조각이 생성되지 않지만 외부 조각은 생성될 수 있고 구현이 복잡하다는 단점이 있습니다.
 
-DMA(Direct Memory Access) : CPU의 중재 없이 device contrioller가 device의 buffer storage의 내용을 메모리에 block 단위로 직접 전송
+​          
 
-3장
+| 키워드              | 단원                           | 설명                                                 | 관련키워드                                       |
+| ------------------- | ------------------------------ | ---------------------------------------------------- | ------------------------------------------------ |
+| preemptive          | 04 CPU 스케줄링<br />07 데드락 | 프로세스 강제종료<br />프로세스의 자원을 강제로 반환 | SJF<br />No preemption(비선점)                   |
+| clock algorithm     | 08 메모리 관리                 | page replacement Algorithm                           | Page fault<br />LRU, LFU(heap)                   |
+| 내부조각과 외부조각 | 08 메모리 관리                 | 메모리 할당 시 생길 수 있는 조각                     | Contigouous Allocation<br />Paging, Segmentation |
+| Processor-Consumer  | 10 파일시스템                  | 동기화 문제 중 한가지                                | Buffer                                           |
+| RAID                | 11 입출력시스템                | 디스크 사용법 중 한가지                              | Parity                                           |
+| SCAN                | 11 입출력시스템                | 디스크 head의 탐색방법                               | FCFS<br />SSRF<br />C/N-SCAN<br />LOOK/C-LOOK    |
+| Page fault          | 08 메모리 관리                 | 페이지를 교체하는 방법                               | Interrupt<br />clock algorithm<br />swap         |
+| RR                  | 04 CPU 스케줄링                | CPU 스케줄링 방식 중 하나                            | Timer<br />LRU / LFU                             |
+| Seek time           | 11 입출력 시스템               | 디스크 접근 시간 중 대부분의 시간                    | SCAN<br />Rotational latency<br />Transfer time  |
+| suspend             | 프로세스                       | 프로세스의 상태                                      | blocked<br />swap<br />active                    |
+| critical section    | 병행 제어                      | 공유 데이터의 변수가 존재하는 곳                     | lock<br />semaphor<br />synchronization          |
+| Banker's Algorithm  | 데드락                         | 데드락의 파악 방법                                   | Safe                                             |
+| TLB                 | 메모리 관리                    | 페이지 기법에서 사용: 캐싱기법                       | Associative                                      |
+| MMU                 | 메모리 관리                    | 논리 주소에서 물리주소 변환                          | Limit/relocation register<br />Runtime binding   |
+| FAT                 | 파일시스템                     | Linked Allocation의 방식                             | Linked Allocation                                |
+| VFS                 | 파일 시스템                    | 동일한 시스템콜 인터페이스로 파일접근                | System call<br />NFS                             |
+| Paging              | 가상 메모리                    | 가상 메모리를 관리하는 방법                          | 내부조각<br />Multilevel<br />                   |
 
-Process Control Block (PCB) : 운영체제가 각 프로세스를 관리하기 위해 프로세스당 유지하는 정보
-
-context switch : CPU를 한 프로세스에서 다른 프로세스로 넘겨주는 과정
-
-Scheduler : Long-term scheduler, short-term scheduler, medium-term scheduler
-
-Suspended : 외부적인 이유로 프로세스의 수행이 정지된 상태
-
-프로세스 상태도
-
-스레드(Thred) : 프로세스 내에서 실행되는 흐름의 단위
-
-4장
-
-CPU Scheduler : ready 상태의 프로세스 중에서 이번에 CPU를 줄 프로세스를 고른다
-
-Dispatcher : CPU의 제어권을 CPU scheduler에 의해 선택된 프로세스에게 넘기는 과정이 dispatching이고 디스패처가 이 일을 수행
-
-Round Robin scheduling : 각 프로세스 당 동일한 할당 시간을 가지고 시간이 지나면 다른 프로세스가 CPU를 선점한다
-
-5장
-
-race condition : 하나의 공유 데이터에 동시에 접근하게 되었을 때 생기는 문제
-
-critical section : 공유 데이터를 접근하는 코드
-
-Mutual Exclusion(상호배제) : 공유 불가능한 자원의 동시 사용을 피하기
-
-Semaphore : 두 개의 원자적 함수로 조작되는 정수 변수로서 멀티프로그래밍 환경에서 공유 자원에 대한 접근을 제한하는 방법 - Counting semaphore, Binary semaphore
-
-6장
-
-deadlock  : 둘 이상의 프로세스가 서로 상대방에게 충족될 수 있는 exent를 무한히 기다리는 현상
-
-Bounded-Buffer Problem (Processor-Consumer Problem)
-
-Readers and Writers Problem
-
-Dining-Philocophers Problem
-
-Moniter : 하나의 객체마다 하나의 모니터를 결합하여 모니터는 그것이 결합된 객체가 동시에 두개 이상의 스레드에 의 해 접근할 수 없도록 막는 lock기능을 제공하는 동기화를 수행하는 동기화 도구
-
-7장
-
-deadlock  : 교착상태. 프로세스들이 서로가 가진 자원을 기다리며 block 되어있는 상태를 말한다
-
-Circular wait(환형 대기) : 내가 필요한 조건을 다른 프로세스가 가지는 것의 사이클이 형성
-
-Deadlock Ignorance : 시스템에 deadlock이 발생한 경우 시스템에 비정상적으로 작동하는 것을 사람이 느낀 후 직접 process를 죽이는 등의 방법으로 대처
-
-8장
-
-Address Binding : Compile time binding, Load time binding, Execution time binding(=Run time binding)
-
-MMU(Memory Management Unit) : logical address를 physical address로 매핑해 주는 하드웨어 디바이스. base register(= relocation register : 접근할 수 있는 물리적 메모리 주소의 최솟값)와 limit register(논리적 주소의 범위)를 가진다
-
-Dynamic Loading : 프로세스 전체를 메모리에 미리 다 올리는 것이 아니라 해당 루틴이 불려질 때 메모리에 load하는 것
-
-Dynamic Linking : Linking(소스코드와 라이브러리가 연결되는)을 실행 시간(execution time)까지 미루는 기법
-
-Contiguous allocation : 
-
-Noncontiguous allocation : 
-
-TLB(translation look-aside buffer) : 주소 전환을 빨리하기 위한 캐시 메모리, associative register로 병렬적으로 한번에 있는지를 파악
-
-Segmentation : 프로그램을 의미 단위로 할당
-
-Paged Segmentation : segment가 여러개의 page로 구성
-
-9장
-
-Page replacement : page fault 시 디스크에서 요청한 page를 어떤 frame을 빼앗아와 교체하는 과정
-
-Clock Algorithm : paging system이 실제로 사용하는 page replacement Algorithm으로 원형 queue와 reference bit을 사용하여 교체 대상 페이지를 선정하는 알고리즘
-
-Thrashing : 메모리에 너무 많은 프로그램이 동시에 올라가서 프로그램을 실행하는데 필요한 최소한의 메모리도 없는 상황, page fault를 다루는데 바쁜 상황
-
-10장
-
-directory : 파일의 메타데이터 중 일부를 보관하고 있는 일종의 특별한 파일
-
-Mounting : 루트 파일 디렉토리 특정 디렉토리 이름에다가 다른 파티션에 있는 루트 디렉토리를 마운트 해 주면 usr(마운트 된 디렉토리)에 접근하게 되면 다른 파일의 루트 디렉토리에 접근하는 꼴
-
-11장
-
-Disk Scheduling : seek time(헤드를 해당 실린더로 움직이는데 걸리는 시간)을 최소화하는 것이 목표
-
-SCAN : 요청에 상관없이 일정하게 끝에서 끝으로 이동하면서 처리할 수 있는 요청을 처리
-
-LOOK : SCAN과 유사하나 양끝에 요청이 없으면 헤드가 되돌아간다
-
-RAID : 여러 개의 디스크를 묶어서 사용, 신뢰성 향상 시 동일 정보를 중복 저장, parity(축약)해서 저장
-
-저널링 : 5~30초 단위로 버퍼캐시에서 수정된 내용을 저널영역에 기록하여 파일시스템의 훼손을 방지
-
-Ext4 파일시스템 : Ext2 +저널링, 
-
-LRFU 알고리즘 : LRU와 LFU의 성질을 모두 가진 버퍼캐시 알고리즘
