@@ -1,4 +1,4 @@
-import copy
+# import copy
 import sys
 sys.stdin = open("sample_input.txt", "r")
 
@@ -29,28 +29,31 @@ def check123(lst):      # 다 만들어진 필름에서 조건 통과하는지�
 
 def makelst(ww, changelst):     # 보호필름 새로 갈아끼워서 결과 내는 함수
     global flag
-    if flag:
-        return
+    # if flag:
+    #     return
 
     if len(changelst)==ww:
-        llst = copy.deepcopy(lst)
-        #llst 변화
+        print(changelst)
+        # llst = copy.deepcopy(lst)
+        llst = [f[:] for f in lst]
+        # llst 변화
         for changels in changelst:
             r, k = changels
             llst[r] = [k]*W
-        #temp변화
+            # 두께 체크
         if check123(llst):
             flag = True
         return
+    temp = changelst[-1][0] if changelst else -1
+    for k in range(2):
+        # if [i,0] or [i,1] not in changelst:
+        for i in range(temp+1,D):
+            makelst(ww, changelst + [[i, k]])
+            if flag:
+                return
 
-    for i in range(D):
-        if i not in changelst:
-            for k in range(2):
-                makelst(ww, changelst + [[i, k]])
-                if flag:
-                    break
-        if flag:
-            break
+        # if flag:
+        #     return
 
 
 def check(ww):
@@ -67,18 +70,15 @@ T = int(input())
 for tc in range(1, T+1):
     D, W, K = map(int, input().split())
     lst = [list(map(int, input().split())) for _ in range(D)]
+    if K == 1:
+        print(f'#{tc} 0')
+        continue
     ww=0
     flag = False
-    # flag2 = False
-    while True:
+    while ww<K:
         if check(ww):
             break
-        # if not check(K-ww-1):
-        #     flag2=True
-        #     break
-        # else:
-        #     flag=False
         ww += 1
-    # if flag2:
-    #     ww = K-ww
+
     print(f'#{tc} {ww}')
+
