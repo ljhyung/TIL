@@ -2,6 +2,7 @@
 PGS
 행렬 테두리 회전하기
 lv 2
+40분
 https://programmers.co.kr/learn/courses/30/lessons/77485
 '''
 from pprint import pprint
