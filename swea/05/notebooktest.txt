@@ -1,1 +1,2 @@
 notebook test file
+notebook works well. At least for now.
