@@ -1,0 +1,1 @@
+intellij로 maven 프로젝트 실행하고 docker에 openvidu 서버 올리면 openvidu tutorial 실행 공개 ip로 설정해서 LAN 네트워크 사용자끼리 통신 가능
