@@ -32,24 +32,33 @@ public static void main(String[] args) {
    //전역 선
    private static Queue<Integer> queue;
    queue = new LinkedList<Integer>();
-   
    ```
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
+5. 큐에 list나 좌표를 넣고 싶을 때
+   
+   ```java
+   class rcd {
+   	int r;
+   	int c;
+   	int d;
+   	public rcd(int r, int c,int d) {
+   		this.r = r;
+   		this.c = c;
+   		this.d = d;
+   	}
+   }
+   ```
+   
+   클래스 형식으로 만들어서 
+   
+   ```java
+   Queue<rcd> queue = new LinkedList<>();
+   queue.add(new rcd(shark[0], shark[1],0));
+   ```
+   
+   
 
 
 
