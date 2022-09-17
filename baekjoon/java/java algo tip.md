@@ -34,20 +34,18 @@ public static void main(String[] args) {
    queue = new LinkedList<Integer>();
    ```
 
-
-
 5. 큐에 list나 좌표를 넣고 싶을 때
    
    ```java
    class rcd {
-   	int r;
-   	int c;
-   	int d;
-   	public rcd(int r, int c,int d) {
-   		this.r = r;
-   		this.c = c;
-   		this.d = d;
-   	}
+       int r;
+       int c;
+       int d;
+       public rcd(int r, int c,int d) {
+           this.r = r;
+           this.c = c;
+           this.d = d;
+       }
    }
    ```
    
@@ -57,9 +55,17 @@ public static void main(String[] args) {
    Queue<rcd> queue = new LinkedList<>();
    queue.add(new rcd(shark[0], shark[1],0));
    ```
-   
-   
 
 
 
 
+
+9/17 시험
+
+퍼즐 맞추기 1234 5678
+
+                      9876
+
+
+
+가장 많은 면, 가장 위, 가장 왼쪽
