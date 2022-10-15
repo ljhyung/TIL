@@ -1,4 +1,20 @@
+'''
+codetree
+예술성
+기출
+2시간
+'''
 
+# # 반시계방향 90도 회전
+# new_x = (n-1) - old_y
+# new_y = old_x
+#
+# # 시계방향 90도 회전
+# new_x = old_y
+# new_y = (n-1) - old_x
+
+
+from pprint import pprint
 
 n = int(input())
 N = (n-1)//2
@@ -94,7 +110,8 @@ for r in range(n):
 inclosed()  # 닿는 면 체크
 score()     # 점수 측정 및 합산
 
-
+pprint(lst)
+pprint(inclose)
 for _ in range(3):
     # 이동
     moveSquare(0,0)
