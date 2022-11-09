@@ -55,6 +55,7 @@ def coldGo():
         while queue:
             rr,cc,power = queue.popleft()
             plusList[rr][cc]=power
+            if power==0:continue
             for delta in [-1,0,1]:
                 if d==0 or d==2:# 오,왼
                     nextR, nextC = rr+delta, cc+dc[d]
